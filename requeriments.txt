@@ -1,0 +1,10 @@
+opencv-python
+psutil
+pypiwin32
+pycryptodome
+pycryptodomex
+wmi
+soundfile
+sounddevice
+pillow
+halo
